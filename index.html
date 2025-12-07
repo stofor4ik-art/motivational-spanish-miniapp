@@ -24,6 +24,30 @@
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
             --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
             --duration: 300ms;
+        
+        
+        /* ========== TELEGRAM MINI APP STYLES ========== */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        #root {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        body {
+            background: var(--color-surface, #1E293B);
+            color: var(--color-text, #F1F5F9);
+        }
+        /* Убрать overflow для главного контейнера */
+        .container {
+            height: 100vh !important;
+            overflow-y: auto !important;
+        }
         }
 
         * {
@@ -648,6 +672,39 @@
                 const twa = window.Telegram.WebApp;
                 twa.ready();
                 twa.expand();
+        
+        // Установить цвет заголовка
+        if (twa.themeParams?.header_background_color) {
+            twa.setHeaderColor(twa.themeParams.header_background_color);
+        } else {
+            twa.setHeaderColor('#3B82F6');
+        }
+        
+        // Установить цвет фона
+        if (twa.themeParams?.bg_color) {
+            twa.setBackgroundColor(twa.themeParams.bg_color);
+        }
+        
+        // Применить переменные CSS для цветовой схемы
+        document.documentElement.style.setProperty('--color-primary', twa.themeParams?.button_color || '#3B82F6');
+        document.documentElement.style.setProperty('--color-surface', twa.themeParams?.bg_color || '#1E293B');
+        
+        // Установить размер главного контейнера
+        const root = document.getElementById('root');
+        if (root) {
+            root.style.height = window.innerHeight + 'px';
+        }
+        
+        // Обработка изменения размера окна
+        window.addEventListener('resize', () => {
+            if (root) {
+                root.style.height = window.innerHeight + 'px';
+            }
+        });
+        
+        console.log('✓ Telegram Mini App инициализирован успешно!');
+        console.log('Platform:', twa.platform);
+        console.log('Color Scheme:', twa.colorScheme);
                 
                 initData = twa.initData;
                 if (twa.initDataUnsafe?.user) {
