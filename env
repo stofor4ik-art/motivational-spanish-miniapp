@@ -1,0 +1,5 @@
+BOT_TOKEN=8059103322:AAHf8ql_pq1FsQEhL3Xd6Dodku4DkCMIu2Y
+API_PORT=3000
+DATABASE_URL=mongodb+srv://user:password@cluster.mongodb.net/motivational_spanish
+NODE_ENV=development
+WEBHOOK_URL=https://your-domain.com/webhook

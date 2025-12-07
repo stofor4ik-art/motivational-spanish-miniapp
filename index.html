@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мотивационный Испанский</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --color-primary: #3B82F6;
+            --color-primary-hover: #2563EB;
+            --color-primary-active: #1D4ED8;
+            --color-bg: #0F172A;
+            --color-surface: #1E293B;
+            --color-text: #F1F5F9;
+            --color-text-secondary: #94A3B8;
+            --color-accent: #10B981;
+            --color-accent-hover: #059669;
+            --color-error: #EF4444;
+            --color-warning: #F59E0B;
+            --color-border: rgba(148, 163, 184, 0.15);
+            --radius-base: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+            --duration: 300ms;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0F172A 0%, #1A1F2E 100%);
+            color: var(--color-text);
+            min-height: 100vh;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding-top: 12px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #3B82F6, #10B981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+        }
+
+        .status {
+            text-align: center;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-bottom: 12px;
+            min-height: 16px;
+        }
+
+        .status.syncing {
+            color: var(--color-warning);
+        }
+
+        .status.synced {
+            color: var(--color-accent);
+        }
+
+        .card-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #1E293B 0%, #2D3E50 100%);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 32px 24px;
+            box-shadow: var(--shadow-md);
+            animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-spanish {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-align: center;
+            line-height: 1.4;
+            margin-bottom: 24px;
+            word-wrap: break-word;
+        }
+
+        .card-russian {
+            text-align: center;
+            margin-bottom: 16px;
+            transition: all var(--duration) ease;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-russian.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scaleY(0.8);
+        }
+
+        .card-russian-text {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--color-text);
+            margin-bottom: 12px;
+        }
+
+        .card-topic {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-top: 12px;
+        }
+
+        .card-counter {
+            text-align: center;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-top: 16px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 12px 16px;
+            border: none;
+            border-radius: var(--radius-base);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--duration) ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:active {
+            background: var(--color-primary-active);
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text);
+            border: 1.5px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--color-primary);
+        }
+
+        .btn-accent {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--color-accent);
+            border: 1.5px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-accent:hover {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: var(--color-accent);
+        }
+
+        .btn-accent.active {
+            background: var(--color-accent);
+            color: white;
+            border-color: var(--color-accent);
+        }
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scroll-behavior: smooth;
+        }
+
+        .filter-btn {
+            padding: 8px 14px;
+            border: 1.5px solid var(--color-border);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--color-text-secondary);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all var(--duration) ease;
+            text-transform: capitalize;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-accent);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--color-text-secondary);
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        .favorites-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .favorites-section.open {
+            max-height: 400px;
+        }
+
+        .favorites-list {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            padding: 12px;
+            margin-bottom: 16px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .favorite-item {
+            padding: 12px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all var(--duration) ease;
+        }
+
+        .favorite-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--color-primary);
+        }
+
+        .favorite-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .favorite-spanish {
+            font-weight: 600;
+            color: var(--color-primary);
+            flex: 1;
+        }
+
+        .favorite-remove {
+            background: transparent;
+            border: none;
+            color: var(--color-error);
+            cursor: pointer;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all var(--duration) ease;
+        }
+
+        .favorite-remove:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 24px;
+            color: var(--color-text-secondary);
+            font-size: 14px;
+        }
+
+        .toggle-favorites {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: color var(--duration) ease;
+        }
+
+        .toggle-favorites:hover {
+            color: var(--color-accent);
+        }
+
+        @media (max-width: 480px) {
+            .card-spanish {
+                font-size: 24px;
+            }
+
+            .card-russian-text {
+                font-size: 16px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .button-group {
+                gap: 8px;
+            }
+
+            .btn {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🇪🇸 Мотивационный Испанский</h1>
+            <p>Каждый день — новая мотивация на испанском</p>
+        </div>
+
+        <div class="status" id="status"></div>
+
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-value" id="totalCards">102</div>
+                <div class="stat-label">Фраз</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="favoriteCount">0</div>
+                <div class="stat-label">Избранные</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="studiedToday">0</div>
+                <div class="stat-label">Сегодня</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">Все</button>
+            <button class="filter-btn" data-filter="мотивация">Мотивация</button>
+            <button class="filter-btn" data-filter="учёба">Учёба</button>
+            <button class="filter-btn" data-filter="жизнь">Жизнь</button>
+            <button class="filter-btn" data-filter="путешествия">Путешествия</button>
+        </div>
+
+        <div class="card-container">
+            <div class="card">
+                <div>
+                    <div class="card-spanish" id="cardSpanish">Sí se puede</div>
+                    <div class="card-russian" id="cardRussian">
+                        <div class="card-russian-text" id="cardRussianText">Да, ты можешь</div>
+                        <span class="card-topic" id="cardTopic">мотивация</span>
+                    </div>
+                </div>
+                <div class="card-counter">
+                    <span id="cardCounter">1 из 102</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-secondary" id="prevBtn">← Предыдущая</button>
+            <button class="btn btn-primary" id="nextBtn">Следующая →</button>
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-secondary" id="toggleTranslationBtn">👁 Показать перевод</button>
+            <button class="btn btn-accent" id="favoriteBtn">♡ В избранное</button>
+        </div>
+
+        <div class="toggle-favorites" id="toggleFavoritesBtn">
+            <span>★ Избранные фразы</span>
+            <span style="font-size: 16px;">▼</span>
+        </div>
+
+        <div class="favorites-section" id="favoritesSection">
+            <div class="favorites-list" id="favoritesList">
+                <div class="empty-state">Нет избранных фраз</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============ КОНФИГУРАЦИЯ ============
+        const API_BASE = 'http://localhost:3000';
+        const SYNC_INTERVAL = 30000; // 30 секунд
+
+        // ============ ДАННЫЕ ============
+        const cards = [
+            { id: 1, es: "Sí se puede", ru: "Да, ты можешь", topic: "мотивация" },
+            { id: 2, es: "Cree en ti", ru: "Верь в себя", topic: "мотивация" },
+            { id: 3, es: "Eres capaz", ru: "Ты способен(на)", topic: "мотивация" },
+            { id: 4, es: "Vales mucho", ru: "Ты многого стоишь", topic: "мотивация" },
+            { id: 5, es: "Nunca te rindas", ru: "Никогда не сдавайся", topic: "мотивация" },
+            { id: 6, es: "Paso a paso", ru: "Шаг за шагом", topic: "учёба" },
+            { id: 7, es: "Confía en el proceso", ru: "Доверься процессу", topic: "мотивация" },
+            { id: 8, es: "Todo es posible", ru: "Всё возможно", topic: "мотивация" },
+            { id: 9, es: "Tú puedes más", ru: "Ты можешь больше", topic: "мотивация" },
+            { id: 10, es: "Sigue adelante", ru: "Иди дальше", topic: "мотивация" },
+            { id: 11, es: "Cada día cuenta", ru: "Каждый день имеет значение", topic: "учёба" },
+            { id: 12, es: "Aprende de tus errores", ru: "Учись на своих ошибках", topic: "учёба" },
+            { id: 13, es: "El tiempo lo cura todo", ru: "Время лечит всё", topic: "жизнь" },
+            { id: 14, es: "Al mal tiempo, buena cara", ru: "Улыбайся в трудные времена", topic: "жизнь" },
+            { id: 15, es: "Más vale tarde que nunca", ru: "Лучше поздно, чем никогда", topic: "мотивация" },
+            { id: 16, es: "La práctica hace al maestro", ru: "Практика делает мастера", topic: "учёба" },
+            { id: 17, es: "Quien no arriesga, no gana", ru: "Кто не рискует, тот не выигрывает", topic: "мотивация" },
+            { id: 18, es: "Poco a poco se va lejos", ru: "Потихоньку зайдёшь далеко", topic: "мотивация" },
+            { id: 19, es: "Hoy es un buen día para empezar", ru: "Сегодня хороший день начать", topic: "мотивация" },
+            { id: 20, es: "Nunca es tarde para aprender", ru: "Никогда не поздно учиться", topic: "учёба" },
+            { id: 21, es: "Todo esfuerzo tiene su recompensa", ru: "Любое усилие вознаграждается", topic: "мотивация" },
+            { id: 22, es: "Haz lo mejor que puedas", ru: "Делай всё, что можешь", topic: "мотивация" },
+            { id: 23, es: "Tú eres tu mejor inversión", ru: "Ты лучшая инвестиция", topic: "жизнь" },
+            { id: 24, es: "Cree en tu camino", ru: "Верь в свой путь", topic: "мотивация" },
+            { id: 25, es: "No te compares con los demás", ru: "Не сравнивай с другими", topic: "жизнь" },
+            { id: 26, es: "Cada error te hace más fuerte", ru: "Ошибка делает тебя сильнее", topic: "учёба" },
+            { id: 27, es: "Aprende algo nuevo hoy", ru: "Выучи что-то новое сегодня", topic: "учёба" },
+            { id: 28, es: "El límite está en tu mente", ru: "Предел только в голове", topic: "мотивация" },
+            { id: 29, es: "Sueña en grande", ru: "Мечтай по-крупному", topic: "мотивация" },
+            { id: 30, es: "La constancia vence al talento", ru: "Упорство побеждает талант", topic: "мотивация" },
+            { id: 31, es: "El que madruga, Dios le ayuda", ru: "Раннему пташке Бог помогает", topic: "жизнь" },
+            { id: 32, es: "Hazlo con pasión o no lo hagas", ru: "Делай с страстью или не делай", topic: "мотивация" },
+            { id: 33, es: "Tu futuro empieza hoy", ru: "Твоё будущее начинается сегодня", topic: "мотивация" },
+            { id: 34, es: "La única forma de fallar es dejar de intentarlo", ru: "Единственный способ проиграть", topic: "мотивация" },
+            { id: 35, es: "Nunca pares de aprender", ru: "Никогда не прекращай учиться", topic: "учёба" },
+            { id: 36, es: "Cada palabra nueva es una puerta", ru: "Каждое слово — новая дверь", topic: "учёба" },
+            { id: 37, es: "Equivocarse es parte del aprendizaje", ru: "Ошибаться — часть обучения", topic: "учёба" },
+            { id: 38, es: "Tu progreso importa más que la perfección", ru: "Прогресс важнее совершенства", topic: "мотивация" },
+            { id: 39, es: "Hoy mejor que ayer, mañana mejor que hoy", ru: "Каждый день лучше предыдущего", topic: "мотивация" },
+            { id: 40, es: "Haz de tu meta un hábito", ru: "Сделай цель привычкой", topic: "мотивация" },
+            { id: 41, es: "El camino se hace al andar", ru: "Дорога возникает, когда идёшь", topic: "жизнь" },
+            { id: 42, es: "Con cada frase, eres más fuerte", ru: "С каждой фразой сильнее", topic: "учёба" },
+            { id: 43, es: "Los pequeños pasos crean grandes cambios", ru: "Маленькие шаги — большие перемены", topic: "мотивация" },
+            { id: 44, es: "Tu esfuerzo de hoy será tu orgullo mañana", ru: "Сегодняшний труд — завтрашняя гордость", topic: "мотивация" },
+            { id: 45, es: "Atrévete a intentarlo", ru: "Осмелься попробовать", topic: "мотивация" },
+            { id: 46, es: "Tu disciplina te acerca a tus sueños", ru: "Дисциплина приближает мечты", topic: "мотивация" },
+            { id: 47, es: "Cada minuto que estudias cuenta", ru: "Каждая минута учёбы важна", topic: "учёба" },
+            { id: 48, es: "Rodéate de buenas palabras", ru: "Окружи себя хорошими словами", topic: "жизнь" },
+            { id: 49, es: "Cree en tu capacidad de aprender", ru: "Верь в свою способность учиться", topic: "учёба" },
+            { id: 50, es: "Lo importante es no rendirse", ru: "Главное — не сдаваться", topic: "мотивация" },
+            { id: 51, es: "No tengas miedo de equivocarte", ru: "Не бойся ошибаться", topic: "учёба" },
+            { id: 52, es: "Preguntar es parte de aprender", ru: "Спрашивать — часть обучения", topic: "учёба" },
+            { id: 53, es: "Cada idioma es una nueva vida", ru: "Каждый язык — новая жизнь", topic: "учёба" },
+            { id: 54, es: "Habla sin miedo", ru: "Говори без страха", topic: "учёба" },
+            { id: 55, es: "Usa el español cada día", ru: "Используй испанский каждый день", topic: "учёба" },
+            { id: 56, es: "Repetir es recordar", ru: "Повторение — запоминание", topic: "учёба" },
+            { id: 57, es: "Tu acento es tu historia", ru: "Твой акцент — часть истории", topic: "учёба" },
+            { id: 58, es: "Escucha más, entenderás más", ru: "Слушай больше — поймёшь больше", topic: "учёба" },
+            { id: 59, es: "Leer te abre la mente", ru: "Чтение открывает разум", topic: "учёба" },
+            { id: 60, es: "Equivócate en español, pero habla", ru: "Ошибайся, но говори по-испански", topic: "учёба" },
+            { id: 61, es: "Un día sin aprender es un día perdido", ru: "День без учёбы — потерянный день", topic: "учёба" },
+            { id: 62, es: "Tu esfuerzo marca la diferencia", ru: "Твои усилия делают разницу", topic: "мотивация" },
+            { id: 63, es: "El éxito es la suma de pequeños esfuerzos", ru: "Успех — сумма маленьких усилий", topic: "мотивация" },
+            { id: 64, es: "Aprende para ti, no para los demás", ru: "Учись для себя, не для других", topic: "учёба" },
+            { id: 65, es: "Celebra cada pequeño progreso", ru: "Отмечай каждый маленький прогресс", topic: "мотивация" },
+            { id: 66, es: "No te detengas ahora", ru: "Не останавливайся сейчас", topic: "мотивация" },
+            { id: 67, es: "Empieza donde estás, usa lo que tienes", ru: "Начни там, где ты есть", topic: "мотивация" },
+            { id: 68, es: "Tu mejor versión está en camino", ru: "Твоя лучшая версия уже в пути", topic: "мотивация" },
+            { id: 69, es: "Aprende a disfrutar del proceso", ru: "Научись получать удовольствие", topic: "учёба" },
+            { id: 70, es: "Lo que hoy te cuesta, mañana será fácil", ru: "Сложное станет лёгким", topic: "мотивация" },
+            { id: 71, es: "Tu paciencia es tu fuerza", ru: "Твоё терпение — твоя сила", topic: "мотивация" },
+            { id: 72, es: "Cada frase te acerca a la fluidez", ru: "Каждая фраза — шаг к свободной речи", topic: "учёба" },
+            { id: 73, es: "No importa lo lento que vayas, si no te detienes", ru: "Не важно как медленно, главное не останавливаться", topic: "мотивация" },
+            { id: 74, es: "Tus metas valen el esfuerzo", ru: "Твои цели стоят усилий", topic: "мотивация" },
+            { id: 75, es: "Los errores son maestros", ru: "Ошибки — учителя", topic: "учёба" },
+            { id: 76, es: "Confía en lo que ya sabes", ru: "Доверься тому, что знаешь", topic: "учёба" },
+            { id: 77, es: "Cada día puedes aprender algo nuevo", ru: "Каждый день — что-то новое", topic: "учёба" },
+            { id: 78, es: "Hablar es practicar", ru: "Говорить — это практика", topic: "учёба" },
+            { id: 79, es: "Tus dudas no definen tu potencial", ru: "Сомнения не определяют потенциал", topic: "мотивация" },
+            { id: 80, es: "Tu constancia es tu superpoder", ru: "Постоянство — твоя суперсила", topic: "мотивация" },
+            { id: 81, es: "Aprende de ayer, vive hoy, sueña mañana", ru: "Учись вчерашнему, живи сегодня", topic: "жизнь" },
+            { id: 82, es: "Tu progreso es único", ru: "Твой прогресс уникален", topic: "мотивация" },
+            { id: 83, es: "No te subestimes", ru: "Не недооценивай себя", topic: "мотивация" },
+            { id: 84, es: "Disfruta cada nueva palabra", ru: "Наслаждайся каждым новым словом", topic: "учёба" },
+            { id: 85, es: "Haz del español parte de tu vida", ru: "Сделай испанский частью жизни", topic: "учёба" },
+            { id: 86, es: "Tus ganas de aprender ya son un éxito", ru: "Желание учиться уже успех", topic: "мотивация" },
+            { id: 87, es: "Hoy estudias, mañana lo vives", ru: "Сегодня учишь, завтра живёшь", topic: "учёба" },
+            { id: 88, es: "El conocimiento es libertad", ru: "Знание — это свобода", topic: "жизнь" },
+            { id: 89, es: "Tu esfuerzo inspira a otros", ru: "Твои усилия вдохновляют", topic: "мотивация" },
+            { id: 90, es: "No hay aprendizaje sin práctica", ru: "Нет обучения без практики", topic: "учёба" },
+            { id: 91, es: "Cada vez que repites, mejoras", ru: "С каждым повторением — лучше", topic: "учёба" },
+            { id: 92, es: "No temas equivocarte en público", ru: "Не бойся ошибок на публике", topic: "учёба" },
+            { id: 93, es: "Tu valentía te hace avanzar", ru: "Смелость двигает вперёд", topic: "мотивация" },
+            { id: 94, es: "Aprende a tu ritmo", ru: "Учись в своём темпе", topic: "учёба" },
+            { id: 95, es: "El español es tu nueva herramienta", ru: "Испанский — новый инструмент", topic: "учёба" },
+            { id: 96, es: "Cada día de estudio es una victoria", ru: "День учёбы — победа", topic: "учёба" },
+            { id: 97, es: "Lo difícil de hoy será tu orgullo mañana", ru: "Трудное станет гордостью", topic: "мотивация" },
+            { id: 98, es: "Confía en tu progreso", ru: "Верь в свой прогресс", topic: "мотивация" },
+            { id: 99, es: "Eres más constante de lo que crees", ru: "Ты более упорен, чем думаешь", topic: "мотивация" },
+            { id: 100, es: "Este es solo el comienzo", ru: "Это только начало", topic: "мотивация" },
+            { id: 101, es: "Tu español mejora con cada paso", ru: "Испанский улучшается с каждым шагом", topic: "учёба" },
+            { id: 102, es: "Gracias por seguir adelante", ru: "Спасибо за то, что идёшь дальше", topic: "мотивация" }
+        ];
+
+        // ============ СОСТОЯНИЕ ============
+        let currentIndex = 0;
+        let filteredCards = [...cards];
+        let showTranslation = true;
+        let favorites = [];
+        let studiedToday = 0;
+        let totalStudied = 0;
+        let lastStudyDate = new Date().toDateString();
+        let userId = null;
+        let initData = null;
+        let isSyncing = false;
+
+        // ============ DOM ЭЛЕМЕНТЫ ============
+        const cardSpanish = document.getElementById('cardSpanish');
+        const cardRussian = document.getElementById('cardRussian');
+        const cardRussianText = document.getElementById('cardRussianText');
+        const cardTopic = document.getElementById('cardTopic');
+        const cardCounter = document.getElementById('cardCounter');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const toggleTranslationBtn = document.getElementById('toggleTranslationBtn');
+        const favoriteBtn = document.getElementById('favoriteBtn');
+        const toggleFavoritesBtn = document.getElementById('toggleFavoritesBtn');
+        const favoritesSection = document.getElementById('favoritesSection');
+        const favoritesList = document.getElementById('favoritesList');
+        const favoriteCount = document.getElementById('favoriteCount');
+        const studiedTodayEl = document.getElementById('studiedToday');
+        const statusEl = document.getElementById('status');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        // ============ ИНИЦИАЛИЗАЦИЯ TELEGRAM WEBAPP ============
+        function initTelegramWebApp() {
+            if (window.Telegram?.WebApp) {
+                const twa = window.Telegram.WebApp;
+                twa.ready();
+                twa.expand();
+                
+                initData = twa.initData;
+                if (twa.initDataUnsafe?.user) {
+                    userId = twa.initDataUnsafe.user.id;
+                    console.log('✓ Telegram UserID:', userId);
+                }
+                
+                document.documentElement.style.setProperty('--color-primary', twa.themeParams?.button_color || '#3B82F6');
+            } else {
+                console.warn('⚠️ Не в Telegram WebApp');
+                initData = 'test_data=1&user=' + JSON.stringify({id: 123456789, username: 'testuser'});
+            }
+            
+            loadFromServer();
+        }
+
+        // ============ API ФУНКЦИИ ============
+        async function loadFromServer() {
+            try {
+                updateStatus('Загрузка...', 'syncing');
+                
+                const response = await fetch(`${API_BASE}/api/user/progress`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ initData })
+                });
+
+                if (!response.ok) throw new Error('Ошибка сервера');
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    favorites = data.data.favorites || [];
+                    currentIndex = data.data.currentIndex || 0;
+                    studiedToday = data.data.studiedToday || 0;
+                    totalStudied = data.data.totalStudied || 0;
+                    
+                    updateStatus('✓ Синхронизировано', 'synced');
+                    setTimeout(() => updateStatus(''), 2000);
+                }
+                
+                updateUI();
+                updateStats();
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                updateStatus('⚠️ Использую локальные данные', '');
+                loadFromLocalStorage();
+            }
+        }
+
+        async function syncToServer() {
+            if (isSyncing) return;
+            
+            try {
+                isSyncing = true;
+                
+                const response = await fetch(`${API_BASE}/api/user/sync`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        initData,
+                        favorites,
+                        currentIndex,
+                        studiedToday,
+                        totalStudied
+                    })
+                });
+
+                if (response.ok) {
+                    console.log('✓ Синхронизация успешна');
+                    updateStatus('✓ Сохранено', 'synced');
+                    setTimeout(() => updateStatus(''), 2000);
+                }
+            } catch (error) {
+                console.error('Ошибка синхронизации:', error);
+                updateStatus('⚠️ Не удалось сохранить', '');
+            } finally {
+                isSyncing = false;
+            }
+        }
+
+        function loadFromLocalStorage() {
+            favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            currentIndex = parseInt(localStorage.getItem('currentIndex') || '0');
+            studiedToday = parseInt(localStorage.getItem('studiedToday') || '0');
+            totalStudied = parseInt(localStorage.getItem('totalStudied') || '0');
+            lastStudyDate = localStorage.getItem('lastStudyDate') || new Date().toDateString();
+            
+            const today = new Date().toDateString();
+            if (today !== lastStudyDate) {
+                studiedToday = 0;
+                localStorage.setItem('lastStudyDate', today);
+            }
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            localStorage.setItem('currentIndex', currentIndex);
+            localStorage.setItem('studiedToday', studiedToday);
+            localStorage.setItem('totalStudied', totalStudied);
+        }
+
+        // ============ UI ФУНКЦИИ ============
+        function updateStatus(message, className) {
+            statusEl.textContent = message;
+            statusEl.className = 'status ' + className;
+        }
+
+        function updateUI() {
+            const card = filteredCards[currentIndex];
+            cardSpanish.textContent = card.es;
+            cardRussianText.textContent = card.ru;
+            cardTopic.textContent = card.topic;
+            cardCounter.textContent = `${currentIndex + 1} из ${filteredCards.length}`;
+            
+            updateTranslationVisibility();
+            updateFavoriteButton();
+        }
+
+        function updateTranslationVisibility() {
+            if (showTranslation) {
+                cardRussian.classList.remove('hidden');
+            } else {
+                cardRussian.classList.add('hidden');
+            }
+        }
+
+        function updateFavoriteButton() {
+            const currentCard = filteredCards[currentIndex];
+            const isFavorite = favorites.some(f => f.id === currentCard.id);
+            
+            if (isFavorite) {
+                favoriteBtn.textContent = '★ В избранном';
+                favoriteBtn.classList.add('active');
+            } else {
+                favoriteBtn.textContent = '♡ В избранное';
+                favoriteBtn.classList.remove('active');
+            }
+        }
+
+        function updateStats() {
+            favoriteCount.textContent = favorites.length;
+            studiedTodayEl.textContent = studiedToday;
+        }
+
+        function recordStudy() {
+            if (studiedToday < cards.length) {
+                studiedToday++;
+                totalStudied++;
+                saveToLocalStorage();
+                syncToServer();
+                updateStats();
+            }
+        }
+
+        function renderFavorites() {
+            if (favorites.length === 0) {
+                favoritesList.innerHTML = '<div class="empty-state">Нет избранных фраз</div>';
+                return;
+            }
+
+            favoritesList.innerHTML = favorites.map(fav => `
+                <div class="favorite-item" data-id="${fav.id}">
+                    <span class="favorite-spanish">${fav.es}</span>
+                    <button class="favorite-remove" data-id="${fav.id}">✕</button>
+                </div>
+            `).join('');
+
+            // Клики на фразы в избранном
+            document.querySelectorAll('.favorite-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('favorite-remove')) return;
+                    
+                    const cardId = parseInt(item.dataset.id);
+                    const cardIndex = filteredCards.findIndex(c => c.id === cardId);
+                    
+                    if (cardIndex === -1) {
+                        // Если фраза не в текущем фильтре, переключиться на "Все"
+                        filterBtns.forEach(btn => {
+                            if (btn.dataset.filter === 'all') {
+                                btn.click();
+                            }
+                        });
+                        setTimeout(() => {
+                            currentIndex = cards.findIndex(c => c.id === cardId);
+                            updateUI();
+                        }, 0);
+                    } else {
+                        currentIndex = cardIndex;
+                        updateUI();
+                    }
+                    
+                    favoritesSection.classList.remove('open');
+                });
+            });
+
+            // Кнопки удаления
+            document.querySelectorAll('.favorite-remove').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(btn.dataset.id);
+                    favorites = favorites.filter(f => f.id !== id);
+                    saveToLocalStorage();
+                    syncToServer();
+                    updateStats();
+                    renderFavorites();
+                });
+            });
+        }
+
+        // ============ СОБЫТИЯ ============
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % filteredCards.length;
+            updateUI();
+            recordStudy();
+            saveToLocalStorage();
+            syncToServer();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + filteredCards.length) % filteredCards.length;
+            updateUI();
+            saveToLocalStorage();
+            syncToServer();
+        });
+
+        toggleTranslationBtn.addEventListener('click', () => {
+            showTranslation = !showTranslation;
+            updateTranslationVisibility();
+            toggleTranslationBtn.textContent = showTranslation ? '👁 Показать перевод' : '👁‍🗨 Скрыть перевод';
+        });
+
+        favoriteBtn.addEventListener('click', () => {
+            const currentCard = filteredCards[currentIndex];
+            const isFavorite = favorites.some(f => f.id === currentCard.id);
+            
+            if (isFavorite) {
+                favorites = favorites.filter(f => f.id !== currentCard.id);
+            } else {
+                favorites.push(currentCard);
+            }
+            
+            saveToLocalStorage();
+            updateUI();
+            updateStats();
+            
+            if (favoritesSection.classList.contains('open')) {
+                renderFavorites();
+            }
+            
+            syncToServer();
+        });
+
+        toggleFavoritesBtn.addEventListener('click', () => {
+            favoritesSection.classList.toggle('open');
+            renderFavorites();
+        });
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                if (filter === 'all') {
+                    filteredCards = [...cards];
+                } else {
+                    filteredCards = cards.filter(c => c.topic === filter);
+                }
+                
+                currentIndex = 0;
+                updateUI();
+                saveToLocalStorage();
+            });
+        });
+
+        // ============ СИНХРОНИЗАЦИЯ ============
+        setInterval(() => {
+            syncToServer();
+        }, SYNC_INTERVAL);
+
+        // ============ ЗАПУСК ============
+        initTelegramWebApp();
+    </script>
+</body>
+</html>
