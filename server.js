@@ -254,6 +254,58 @@ app.get('/index.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+
+// ============ TELEGRAM BOT WEBHOOK ============
+const TelegramBot = require('node-telegram-bot-api');
+
+const token = process.env.BOT_TOKEN;
+const bot = new TelegramBot(token, { polling: false });
+
+// POST endpoint for Telegram webhook
+app.post('/telegram/webhook', (req, res) => {
+  const msg = req.body.message;
+  
+  if (!msg) {
+    return res.json({ ok: true });
+  }
+
+  // Handle /start and /spanish commands
+  if (msg.text === '/start' || msg.text === '/spanish') {
+    bot.sendMessage(msg.chat.id, 
+      '🇪🇸 *Мотивационный Испанский*\n\nНажми кнопку ниже, чтобы открыть приложение и начать учить мотивационные фразы на испанском!',
+      {
+        parse_mode: 'Markdown',
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: '🎯 Открыть приложение',
+                web_app: {
+                  url: 'https://motivational-spanish-miniapp.vercel.app/'
+                }
+              }
+            ]
+          ]
+        }
+      }
+    );
+  }
+  
+  res.json({ ok: true });
+});
+
+// Set webhook (call this once)
+app.get('/set-webhook', async (req, res) => {
+  try {
+    await bot.setWebHook(`https://${process.env.VERCEL_URL}/telegram/webhook`);
+    res.json({ ok: true, message: 'Webhook set successfully' });
+  } catch (error) {
+    console.error('Webhook error:', error);
+    res.json({ ok: false, error: error.message });
+  }
+});
+
+
 // Запуск сервера
 app.listen(PORT, () => {
   console.log(`
