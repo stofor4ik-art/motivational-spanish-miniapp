@@ -316,4 +316,17 @@ app.listen(PORT, () => {
 ║  API: http://localhost:${PORT}          ║
 ╚════════════════════════════════════════╝
   `);
+
+  // Auto-setup webhook on server start
+(async () => {
+  if (process.env.VERCEL_URL && process.env.BOT_TOKEN) {
+    try {
+      const webhookUrl = `https://${process.env.VERCEL_URL}/telegram/webhook`;
+      await bot.setWebHook(webhookUrl);
+      console.log(`✓ Webhook установлен: ${webhookUrl}`);
+    } catch (error) {
+      console.error('✗ Ошибка установки webhook:', error.message);
+    }
+  }
+})();
 });
