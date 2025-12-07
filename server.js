@@ -239,6 +239,21 @@ app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+
+// Serve static files (index.html, styles.css, etc.)
+const path = require('path');
+app.use(express.static(path.join(__dirname)));
+
+// Serve index.html on root path
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Fallback to index.html for SPA routing
+app.get('/index.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // Запуск сервера
 app.listen(PORT, () => {
   console.log(`
