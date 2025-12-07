@@ -684,11 +684,7 @@
         if (twa.themeParams?.bg_color) {
             twa.setBackgroundColor(twa.themeParams.bg_color);
         }
-        
-        // Применить переменные CSS для цветовой схемы
-        document.documentElement.style.setProperty('--color-primary', twa.themeParams?.button_color || '#3B82F6');
-        document.documentElement.style.setProperty('--color-surface', twa.themeParams?.bg_color || '#1E293B');
-        
+                
         // Установить размер главного контейнера
         const root = document.getElementById('root');
         if (root) {
